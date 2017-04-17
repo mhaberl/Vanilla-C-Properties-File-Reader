@@ -16,6 +16,8 @@ int main() {
 	printf("Gender: %c\n", gender);
 	printf("Name: %s\n", name);
 
+	Read_File();
+
 	printf("END test \n");
 }
 
