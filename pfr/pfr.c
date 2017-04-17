@@ -2,6 +2,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef enum { INT, FLOAT, CHAR, STRING } property_type;
+
+typedef struct _property {
+	char name;
+	property_type type;
+	
+	int i_value;
+	float f_value;
+	char c_value;
+	char *s_value;
+} property;
+
+
+static property *properties = NULL;
+
 char* vc_read_file() {
 
 	FILE *file = fopen(CONFIG_FILE_NAME, "r");
@@ -26,13 +41,7 @@ char* vc_read_file() {
 int vc_read_int(char* propertyName) {
 	return 0;
 }
-long vc_read_long(char* propertyName){
-	return 0L;
-}
 float vc_read_float(char* propertyName){
-	return 0.0;
-}
-double vc_read_double(char* propertyName){
 	return 0.0;
 }
 char vc_read_char(char* propertyName){
