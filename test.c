@@ -6,17 +6,17 @@ int main() {
 
 	printf("START property file reading and parsing test \n");
 
-	int age = Read_Int("age");
+	int age = vc_read_int("age");
 	
-	int gender = Read_Char("gender");
+	int gender = vc_read_char("gender");
 	
-	char *name = Read_String("name");
+	char *name = vc_read_string("name");
 
 	printf("Age: %d\n", age);
 	printf("Gender: %c\n", gender);
 	printf("Name: %s\n", name);
 
-	Read_File();
+	vc_read_file();
 
 	printf("END test \n");
 }

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char* Read_File() {
+char* vc_read_file() {
 
 	FILE *file = fopen(CONFIG_FILE_NAME, "r");
 	size_t len = 128;
@@ -23,22 +23,22 @@ char* Read_File() {
 }
 
 
-int Read_Int(char* propertyName) {
+int vc_read_int(char* propertyName) {
 	return 0;
 }
-long Read_Long(char* propertyName){
+long vc_read_long(char* propertyName){
 	return 0L;
 }
-float Read_Float(char* propertyName){
+float vc_read_float(char* propertyName){
 	return 0.0;
 }
-double Read_Double(char* propertyName){
+double vc_read_double(char* propertyName){
 	return 0.0;
 }
-char Read_Char(char* propertyName){
+char vc_read_char(char* propertyName){
 	return 'c';
 }
-char* Read_String(char* propertyName){
+char* vc_read_string(char* propertyName){
 	return "abc";
 }
 

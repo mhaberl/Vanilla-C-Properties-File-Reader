@@ -1,7 +1,7 @@
-char* Read_File();
-int Read_Int(char* propertyName);
-long Read_Long(char* propertyName);
-float Read_Float(char* propertyName);
-double Read_Double(char* propertyName);
-char Read_Char(char* propertyName);
-char* Read_String(char* propertyName);
+char* vc_read_file();
+int vc_read_int(char* propertyName);
+long vc_read_long(char* propertyName);
+float vc_ead_float(char* propertyName);
+double vc_read_double(char* propertyName);
+char vc_read_char(char* propertyName);
+char* vc_read_string(char* propertyName);
