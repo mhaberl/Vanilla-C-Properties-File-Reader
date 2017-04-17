@@ -16,18 +16,64 @@ typedef struct _property {
 
 
 static property *properties = NULL;
+static int property_count = 0;
+
+char * getPropertyName(char *line) {
+
+	if(line == NULL)
+		return NULL;
+
+	int j = 0;	
+	int l = -1;
+	for(j=0;line[j]!='\0'&&line[j]!='\n'; j++) {
+		if(line[j] == '=') {
+			l = j;
+		}
+	}
+
+	if(l==-1 || l==0) //does not exist or key is empty
+		return NULL;
+
+	int i;
+	char *pn = malloc(l);
+	for(i=0; i<l; i++) {
+		pn[i]=line[i];
+	}
+	pn[i+1]='\0';
+	
+	return pn;
+}
+
+char * getPropertyValue(char *line) {
+	return "prop value";
+}
 
 char* vc_read_file() {
 
 	FILE *file = fopen(CONFIG_FILE_NAME, "r");
-	size_t len = 128;
-	char * line = (char*)malloc(len * sizeof(char));
+	size_t max_line_length = DEFAULT_MAX_LINE_LENGTH;
+	char * line = (char*) malloc(max_line_length * sizeof(char));
 	ssize_t read;
+
+	int max_property_count = DEFAULT_MAX_PROPERTY_COUNT;
+	properties = (property*) malloc(max_property_count * sizeof(property));
 
 	if (file != NULL) {
 
-		while ((read = getline(&line, &len, file)) != -1) {
-			printf("%s", line);
+		while ((read = getline(&line, &max_line_length, file)) != -1) {
+			
+			
+			if(property_count == max_property_count) {
+				max_property_count *=2;
+				properties = (property *) realloc(properties, max_property_count * sizeof(property));
+			}
+
+			printf("\nline: %s\n", line);
+			printf("\t prop name: '%s'\n", getPropertyName(line));
+			printf("\t prop value; '%s'\n\n", getPropertyValue(line));
+
+			property_count++;
+
 		}
 
 		if (line)
@@ -36,7 +82,6 @@ char* vc_read_file() {
 	}
 	return NULL;
 }
-
 
 int vc_read_int(char* propertyName) {
 	return 0;
