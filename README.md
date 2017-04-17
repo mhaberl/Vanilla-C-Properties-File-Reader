@@ -1,4 +1,4 @@
-# Vanilla-C-Logging
+# Vanilla-C-Properties-File-Reader
 Very simple property file reader and parser in vanilla C
 
 # Test/Demo program
