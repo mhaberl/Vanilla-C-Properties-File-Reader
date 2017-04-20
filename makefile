@@ -1,3 +1,5 @@
+.PHONY: all clean run runOnly
+
 CC=gcc
 FILENAME=test.c
 BINDIR=bin
@@ -10,3 +12,7 @@ all:
 clean:
 	rm -rf $(BINDIR)
 
+runOnly:
+	./bin/test
+
+run: all runOnly
