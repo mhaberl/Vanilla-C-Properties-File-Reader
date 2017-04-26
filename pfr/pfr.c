@@ -46,10 +46,8 @@ char * getPropertyName(char *line) {
 
 	int i;
 	char *pn = malloc(esp+1);
-	for(i=0; i<esp; i++) {
-		pn[i]=line[i];
-	}
-	pn[i]='\0';
+	memcpy(pn,line,esp);
+	pn[esp]='\0';
 	
 	return pn;
 }
@@ -64,10 +62,8 @@ char * getPropertyValue(char *line) {
 
 	int i;
 	char *pv = malloc(lineLength-esp-1);
-	for(i=esp+1; i<lineLength-1; i++) {
-		pv[i-(esp+1)]=line[i];
-	}
-	pv[i]='\0';
+	memcpy(pv,line+esp+1,lineLength-esp-2);
+	pv[lineLength-esp-2]='\0';
 	
 	return pv;
 }
