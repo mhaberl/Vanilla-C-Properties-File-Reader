@@ -3,22 +3,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef enum { INT, FLOAT, CHAR, STRING } property_type;
 
 typedef struct _property {
-	char name;
-	property_type type;
-	
-	int i_value;
-	float f_value;
-	char c_value;
-	char *s_value;
+	char *name;
+	char *value;
 } property;
 
 
 static property *properties = NULL;
 static int property_count = 0;
 
+int isFileUnread() {
+	return properties == NULL;
+}
 
 int getEqualsSignPosition(char *string) {
 
@@ -68,7 +65,7 @@ char * getPropertyValue(char *line) {
 	return pv;
 }
 
-char* vc_read_file() {
+char* read_file() {
 
 	FILE *file = fopen(CONFIG_FILE_NAME, "r");
 	size_t max_line_length = DEFAULT_MAX_LINE_LENGTH;
@@ -89,8 +86,8 @@ char* vc_read_file() {
 			}
 
 			printf("\nline: %s\n", line);
-			printf("\t prop name: '%s'\n", getPropertyName(line));
-			printf("\t prop value: '%s'\n\n", getPropertyValue(line));
+			properties[property_count].name=getPropertyName(line);
+			properties[property_count].value=getPropertyValue(line);
 
 			property_count++;
 
@@ -100,7 +97,20 @@ char* vc_read_file() {
 			free(line);
 		fclose(file);
 	}
+
 	return NULL;
+}
+
+void vc_show_file_content() {
+
+	if(isFileUnread())
+		read_file();
+	int ind;
+	for(ind=0;ind<property_count; ind++) {
+		printf("\t prop name: '%s'\n", properties[ind].name);
+		printf("\t prop value: '%s'\n\n", properties[ind].value);
+
+	}
 }
 
 int vc_read_int(char* propertyName) {

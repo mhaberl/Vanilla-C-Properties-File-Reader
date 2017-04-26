@@ -15,8 +15,9 @@ int main() {
 	printf("Age: %d\n", age);
 	printf("Gender: %c\n", gender);
 	printf("Name: %s\n", name);
-
-	vc_read_file();
+	
+	vc_show_file_content();
+	vc_show_file_content();
 
 	printf("END test \n");
 }
