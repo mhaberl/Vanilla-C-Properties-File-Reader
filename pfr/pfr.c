@@ -1,6 +1,7 @@
 #include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef enum { INT, FLOAT, CHAR, STRING } property_type;
 
@@ -21,40 +22,54 @@ static int property_count = 0;
 
 int getEqualsSignPosition(char *string) {
 
-	int l = -1;
+	int esp = -1;
 	if(string == NULL)
 		return -1;
 
 	int j;	
 	for(j=0;string[j]!='\0'&&string[j]!='\n'; j++) {
 		if(string[j] == '=') {
-			l = j;
+			esp = j;
+			break;
 		}
 	}
-
-
+	return esp;
 }
 
 char * getPropertyName(char *line) {
 
 
-	int l = getEqualsSignPosition(line);
+	int esp = getEqualsSignPosition(line);
 
-	if(l==-1 || l==0) //does not exist or key is empty
+	if(esp==-1 || esp==0) //does not exist or key is empty
 		return NULL;
 
 	int i;
-	char *pn = malloc(l);
-	for(i=0; i<l; i++) {
+	char *pn = malloc(esp+1);
+	for(i=0; i<esp; i++) {
 		pn[i]=line[i];
 	}
-	pn[i+1]='\0';
+	pn[i]='\0';
 	
 	return pn;
 }
 
 char * getPropertyValue(char *line) {
-	return "prop value";
+	
+	int esp = getEqualsSignPosition(line);
+	int lineLength = strlen(line);
+
+	if(esp==-1 || esp==0 || esp==lineLength+1) //does not exist or key is empty
+		return NULL;
+
+	int i;
+	char *pv = malloc(lineLength-esp-1);
+	for(i=esp+1; i<lineLength-1; i++) {
+		pv[i-(esp+1)]=line[i];
+	}
+	pv[i]='\0';
+	
+	return pv;
 }
 
 char* vc_read_file() {
@@ -79,7 +94,7 @@ char* vc_read_file() {
 
 			printf("\nline: %s\n", line);
 			printf("\t prop name: '%s'\n", getPropertyName(line));
-			printf("\t prop value; '%s'\n\n", getPropertyValue(line));
+			printf("\t prop value: '%s'\n\n", getPropertyValue(line));
 
 			property_count++;
 
