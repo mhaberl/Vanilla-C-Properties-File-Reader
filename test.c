@@ -6,6 +6,8 @@ int main() {
 
 	printf("START property file reading and parsing test \n");
 
+	vc_show_file_content();
+
 	int age = vc_read_int("age");
 	
 	int gender = vc_read_char("gender");
@@ -16,8 +18,6 @@ int main() {
 	printf("Gender: %c\n", gender);
 	printf("Name: %s\n", name);
 	
-	vc_show_file_content();
-	vc_show_file_content();
 
 	printf("END test \n");
 }

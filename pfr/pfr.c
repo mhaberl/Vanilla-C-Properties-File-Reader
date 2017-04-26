@@ -76,28 +76,27 @@ char* read_file() {
 	properties = (property*) malloc(max_property_count * sizeof(property));
 
 	if (file != NULL) {
-
 		while ((read = getline(&line, &max_line_length, file)) != -1) {
-			
 			
 			if(property_count == max_property_count) {
 				max_property_count *=2;
 				properties = (property *) realloc(properties, max_property_count * sizeof(property));
 			}
 
-			printf("\nline: %s\n", line);
-			properties[property_count].name=getPropertyName(line);
-			properties[property_count].value=getPropertyValue(line);
-
-			property_count++;
-
+			char* pn = getPropertyName(line);
+			if(pn != NULL)	{
+				char* pv = getPropertyValue(line);
+				if(pv != NULL) {
+					properties[property_count].name=pn;
+		                        properties[property_count].value=pv;
+					property_count++;
+				}
+			}
 		}
-
 		if (line)
 			free(line);
 		fclose(file);
 	}
-
 	return NULL;
 }
 
@@ -123,6 +122,18 @@ char vc_read_char(char* propertyName){
 	return 'c';
 }
 char* vc_read_string(char* propertyName){
-	return "abc";
+
+	if(propertyName == NULL)
+		return NULL;
+
+	if(isFileUnread())
+                read_file();
+        int ind;
+        for(ind=0;ind<property_count; ind++) {
+		if(!strcmp(propertyName, properties[ind].name)) {
+                	return properties[ind].value;
+		}
+        }
+	return NULL;
 }
 
