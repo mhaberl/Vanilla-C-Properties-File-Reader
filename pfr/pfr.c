@@ -18,18 +18,27 @@ typedef struct _property {
 static property *properties = NULL;
 static int property_count = 0;
 
-char * getPropertyName(char *line) {
 
-	if(line == NULL)
-		return NULL;
+int getEqualsSignPosition(char *string) {
 
-	int j = 0;	
 	int l = -1;
-	for(j=0;line[j]!='\0'&&line[j]!='\n'; j++) {
-		if(line[j] == '=') {
+	if(string == NULL)
+		return -1;
+
+	int j;	
+	for(j=0;string[j]!='\0'&&string[j]!='\n'; j++) {
+		if(string[j] == '=') {
 			l = j;
 		}
 	}
+
+
+}
+
+char * getPropertyName(char *line) {
+
+
+	int l = getEqualsSignPosition(line);
 
 	if(l==-1 || l==0) //does not exist or key is empty
 		return NULL;
