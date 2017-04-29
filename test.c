@@ -11,7 +11,6 @@ int main() {
 	int age = vc_read_int("age");
 	printf("Age: %d\n", age);
 
-
 	float weight = vc_read_float("weight");
 	printf("Weight: %f\n", weight);
 

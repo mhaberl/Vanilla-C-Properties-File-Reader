@@ -142,7 +142,11 @@ float vc_read_float(char* propertyName){
 		return 0.0;
 }
 char vc_read_char(char* propertyName){
-	return 'c';
+	char* value = read_value(propertyName);
+	if (value!= NULL)
+		return *value; 
+	else 
+		return '\0';
 }
 char* vc_read_string(char* propertyName){
 	return read_value(propertyName);
