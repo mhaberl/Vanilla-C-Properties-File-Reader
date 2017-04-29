@@ -9,13 +9,16 @@ int main() {
 	vc_show_file_content();
 
 	int age = vc_read_int("age");
-	
+	printf("Age: %d\n", age);
+
+
+	float weight = vc_read_float("weight");
+	printf("Weight: %f\n", weight);
+
 	int gender = vc_read_char("gender");
+	printf("Gender: %c\n", gender);
 	
 	char *name = vc_read_string("name");
-
-	printf("Age: %d\n", age);
-	printf("Gender: %c\n", gender);
 	printf("Name: %s\n", name);
 	
 

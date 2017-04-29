@@ -121,9 +121,8 @@ char* read_value(char* propertyName) {
                 read_file();
         int ind;
         for(ind=0;ind<property_count; ind++) {
-		if(!strcmp(propertyName, properties[ind].name)) {
+		if(!strcmp(propertyName, properties[ind].name))
                 	return properties[ind].value;
-		}
         }
 	return NULL;
 }
@@ -133,10 +132,14 @@ int vc_read_int(char* propertyName) {
 	if (value!= NULL)
 		return atoi(value);
 	else 
-		return NULL;
+		return 0;
 }
 float vc_read_float(char* propertyName){
-	return 0.0;
+	char* value = read_value(propertyName);
+	if (value!= NULL)
+		return atof(value); 
+	else 
+		return 0.0;
 }
 char vc_read_char(char* propertyName){
 	return 'c';
