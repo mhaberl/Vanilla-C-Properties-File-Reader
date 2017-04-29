@@ -84,7 +84,7 @@ char* read_file() {
 			}
 
 			char* pn = getPropertyName(line);
-			if(pn != NULL)	{
+			if(pn != NULL&& line[0]!='#')	{
 				char* pv = getPropertyValue(line);
 				if(pv != NULL) {
 					properties[property_count].name=pn;
