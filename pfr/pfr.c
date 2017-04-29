@@ -112,16 +112,7 @@ void vc_show_file_content() {
 	}
 }
 
-int vc_read_int(char* propertyName) {
-	return 0;
-}
-float vc_read_float(char* propertyName){
-	return 0.0;
-}
-char vc_read_char(char* propertyName){
-	return 'c';
-}
-char* vc_read_string(char* propertyName){
+char* read_value(char* propertyName) {
 
 	if(propertyName == NULL)
 		return NULL;
@@ -135,5 +126,22 @@ char* vc_read_string(char* propertyName){
 		}
         }
 	return NULL;
+}
+
+int vc_read_int(char* propertyName) {
+	char* value = read_value(propertyName);
+	if (value!= NULL)
+		return atoi(value);
+	else 
+		return NULL;
+}
+float vc_read_float(char* propertyName){
+	return 0.0;
+}
+char vc_read_char(char* propertyName){
+	return 'c';
+}
+char* vc_read_string(char* propertyName){
+	return read_value(propertyName);
 }
 
