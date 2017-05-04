@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 
 typedef struct _property {
@@ -12,6 +13,31 @@ typedef struct _property {
 
 static property *properties = NULL;
 static int property_count = 0;
+
+char* trim(char* inputString) {
+
+	char* start = inputString;
+	char* end;
+
+	while(isspace( (unsigned char)* start))  // leading space
+		start++;
+
+	if(*start == 0)
+		return "\0";
+	
+	end = start + strlen(start) - 1;
+	while(end > start && isspace((unsigned char)*end)) // trailing space
+		end--;
+	
+
+	int length = end - start + 2;
+	char* trimmedString = (char*) malloc(length * sizeof(char));
+	memcpy(trimmedString, start, length);
+	trimmedString[length-1] = '\0'; // end the string
+
+	
+	return trimmedString;
+}
 
 int isFileUnread() {
 	return properties == NULL;
@@ -35,7 +61,6 @@ int getEqualsSignPosition(char *string) {
 
 char * getPropertyName(char *line) {
 
-
 	int esp = getEqualsSignPosition(line);
 
 	if(esp==-1 || esp==0) //does not exist or key is empty
@@ -46,7 +71,11 @@ char * getPropertyName(char *line) {
 	memcpy(pn,line,esp);
 	pn[esp]='\0';
 	
-	return pn;
+
+	char* trimmedPn = trim(pn);
+	free(pn);
+
+	return trimmedPn;
 }
 
 char * getPropertyValue(char *line) {
@@ -58,33 +87,38 @@ char * getPropertyValue(char *line) {
 		return NULL;
 
 	int i;
-	char *pv = malloc(lineLength-esp-1);
-	memcpy(pv,line+esp+1,lineLength-esp-2);
-	pv[lineLength-esp-2]='\0';
-	
-	return pv;
+	char *pv = malloc(lineLength-esp);
+	memcpy(pv,line+esp+1,lineLength-esp-1);
+	pv[lineLength-esp-1]='\0';
+
+	char* trimmedPv = trim(pv);
+	free(pv);
+
+	return trimmedPv;
 }
 
 char* read_file() {
 
 	FILE *file = fopen(CONFIG_FILE_NAME, "r");
 	size_t max_line_length = DEFAULT_MAX_LINE_LENGTH;
-	char * line = (char*) malloc(max_line_length * sizeof(char));
+	char * inputLine = (char*) malloc(max_line_length * sizeof(char));
 	ssize_t read;
 
 	int max_property_count = DEFAULT_MAX_PROPERTY_COUNT;
 	properties = (property*) malloc(max_property_count * sizeof(property));
 
 	if (file != NULL) {
-		while ((read = getline(&line, &max_line_length, file)) != -1) {
+		while ((read = getline(&inputLine, &max_line_length, file)) != -1) {
 			
 			if(property_count == max_property_count) {
 				max_property_count *=2;
 				properties = (property *) realloc(properties, max_property_count * sizeof(property));
 			}
 
+			char* line = trim(inputLine);
+
 			char* pn = getPropertyName(line);
-			if(pn != NULL&& line[0]!='#')	{
+			if(pn != NULL && line[0]!='#')	{
 				char* pv = getPropertyValue(line);
 				if(pv != NULL) {
 					properties[property_count].name=pn;
@@ -92,9 +126,11 @@ char* read_file() {
 					property_count++;
 				}
 			}
+			if (line && *line)
+				free(line);
 		}
-		if (line)
-			free(line);
+		if (inputLine && *inputLine)
+			free(inputLine);
 		fclose(file);
 	}
 	return NULL;
