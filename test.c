@@ -21,6 +21,7 @@ int main() {
 	printf("Name: %s\n", name);
 	
 
+	vc_free();
 	printf("END test \n");
 }
 

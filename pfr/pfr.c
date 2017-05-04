@@ -148,6 +148,19 @@ void vc_show_file_content() {
 	}
 }
 
+void vc_free_() {
+
+	if(isFileUnread())
+		return;
+
+	int ind;
+	for(ind=0;ind<property_count; ind++) {
+		free(properties[ind].name);
+		free(properties[ind].value);
+	}
+	free(properties);
+} 
+
 char* read_value(char* propertyName) {
 
 	if(propertyName == NULL)
