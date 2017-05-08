@@ -148,7 +148,7 @@ void vc_show_file_content() {
 	}
 }
 
-void vc_free_() {
+void vc_free() {
 
 	if(isFileUnread())
 		return;
