@@ -14,7 +14,7 @@ typedef struct _property {
 static property *properties = NULL;
 static int property_count = 0;
 
-char* trim(char* inputString) {
+static char* trim(char* inputString) {
 
 	char* start = inputString;
 	char* end;
@@ -39,11 +39,11 @@ char* trim(char* inputString) {
 	return trimmedString;
 }
 
-int isFileUnread() {
+static int isFileUnread() {
 	return properties == NULL;
 }
 
-int getEqualsSignPosition(char *string) {
+static int getEqualsSignPosition(char *string) {
 
 	int esp = -1;
 	if(string == NULL)
@@ -59,7 +59,7 @@ int getEqualsSignPosition(char *string) {
 	return esp;
 }
 
-char * getPropertyName(char *line) {
+static char * getPropertyName(char *line) {
 
 	int esp = getEqualsSignPosition(line);
 
@@ -78,7 +78,7 @@ char * getPropertyName(char *line) {
 	return trimmedPn;
 }
 
-char * getPropertyValue(char *line) {
+static char * getPropertyValue(char *line) {
 	
 	int esp = getEqualsSignPosition(line);
 	int lineLength = strlen(line);
@@ -97,7 +97,7 @@ char * getPropertyValue(char *line) {
 	return trimmedPv;
 }
 
-char* read_file() {
+static char* read_file() {
 
 	FILE *file = fopen(CONFIG_FILE_NAME, "r");
 	size_t max_line_length = DEFAULT_MAX_LINE_LENGTH;
@@ -163,7 +163,7 @@ int vcpfr_free() {
 	return 0;
 } 
 
-char* read_value(char* propertyName) {
+static char* read_value(char* propertyName) {
 
 	if(propertyName == NULL)
 		return NULL;
@@ -185,6 +185,7 @@ int vcpfr_read_int(char* propertyName) {
 	else 
 		return 0;
 }
+
 float vcpfr_read_float(char* propertyName){
 	char* value = read_value(propertyName);
 	if (value!= NULL)
@@ -192,6 +193,7 @@ float vcpfr_read_float(char* propertyName){
 	else 
 		return 0.0;
 }
+
 char vcpfr_read_char(char* propertyName){
 	char* value = read_value(propertyName);
 	if (value!= NULL)
@@ -199,6 +201,7 @@ char vcpfr_read_char(char* propertyName){
 	else 
 		return '\0';
 }
+
 char* vcpfr_read_string(char* propertyName){
 	return read_value(propertyName);
 }
