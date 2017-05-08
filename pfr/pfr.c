@@ -136,7 +136,7 @@ char* read_file() {
 	return NULL;
 }
 
-void vc_show_file_content() {
+int vcpfr_show_file_content() {
 
 	if(isFileUnread())
 		read_file();
@@ -146,9 +146,10 @@ void vc_show_file_content() {
 		printf("\t prop value: '%s'\n\n", properties[ind].value);
 
 	}
+	return 0;
 }
 
-void vc_free() {
+int vcpfr_free() {
 
 	if(isFileUnread())
 		return;
@@ -159,6 +160,7 @@ void vc_free() {
 		free(properties[ind].value);
 	}
 	free(properties);
+	return 0;
 } 
 
 char* read_value(char* propertyName) {
@@ -176,28 +178,28 @@ char* read_value(char* propertyName) {
 	return NULL;
 }
 
-int vc_read_int(char* propertyName) {
+int vcpfr_read_int(char* propertyName) {
 	char* value = read_value(propertyName);
 	if (value!= NULL)
 		return atoi(value);
 	else 
 		return 0;
 }
-float vc_read_float(char* propertyName){
+float vcpfr_read_float(char* propertyName){
 	char* value = read_value(propertyName);
 	if (value!= NULL)
 		return atof(value); 
 	else 
 		return 0.0;
 }
-char vc_read_char(char* propertyName){
+char vcpfr_read_char(char* propertyName){
 	char* value = read_value(propertyName);
 	if (value!= NULL)
 		return *value; 
 	else 
 		return '\0';
 }
-char* vc_read_string(char* propertyName){
+char* vcpfr_read_string(char* propertyName){
 	return read_value(propertyName);
 }
 
